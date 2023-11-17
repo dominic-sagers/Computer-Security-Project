@@ -1,0 +1,46 @@
+<!-- counter.html -->
+<html>
+<head>
+    <title>Counter Page</title>
+</head>
+<body>
+    <h2>Counter Page</h2>
+    <p id="current-number">Current Number: {{ current_number }}</p>
+
+    <form action="/add" method="post">
+        <label for="addition">Add:</label>
+        <input type="number" id="addition" name="addition" required><br>
+        <input type="submit" value="Add">
+    </form>
+
+    <form action="/subtract" method="post">
+        <label for="subtraction">Subtract:</label>
+        <input type="number" id="subtraction" name="subtraction" required><br>
+        <input type="submit" value="Subtract">
+    </form>
+
+    <form action="/logout" method="post">
+        <input type="submit" value="Logout and Delete Profile">
+    </form>
+</body>
+
+<script>
+    function updateCounter() {
+        // Make an AJAX request to fetch the current number
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                // Update the content with the new current number
+                document.getElementById("current-number").innerHTML = "Current Number: " + xhr.responseText;
+            }
+        };
+        xhr.open("GET", "/get_counter", true);
+        xhr.send();
+    }
+    
+    // Update the counter every 5 seconds (adjust as needed)
+    setInterval(updateCounter, 5000);
+    </script>
+    
+
+</html>

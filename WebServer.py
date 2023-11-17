@@ -41,37 +41,25 @@ class WebServer(BaseHTTPRequestHandler):
             self.wfile.write(bytes('<form action="/shutdown" method="post"><input type="submit" value="Shutdown Server"></form>', "utf-8"))
             self.wfile.write(bytes("</body></html>", "utf-8"))
         elif self.path == "/counter":
+            
             self.send_response(200)
+            # Read the content of the HTML file
+            with open("counter.html", "r") as file:
+                html_content = file.read()
+
+            # Replace the placeholder with the actual current number
+            html_content = html_content.replace("{current_number}", str(self.current_number))
             self.send_header("Content-type", "text/html")
             self.end_headers()
-            self.wfile.write(bytes("<html><head><title>Counter Page</title></head>", "utf-8"))
-            self.wfile.write(bytes("<body>", "utf-8"))
-            self.wfile.write(bytes("<h2>Counter Page</h2>", "utf-8"))
-            #Display number
-            self.wfile.write(bytes("<p>Current Number: {}</p>".format(self.current_number), "utf-8"))
             
-
-            #Addition box
-            self.wfile.write(bytes('<form action="/add" method="post">', "utf-8"))
-            self.wfile.write(bytes('  <label for="addition">Add:</label>', "utf-8"))
-            self.wfile.write(bytes('  <input type="number" id="addition" name="addition" required><br>', "utf-8"))
-            self.wfile.write(bytes('  <input type="submit" value="Add">', "utf-8"))
-            self.wfile.write(bytes('</form>', "utf-8"))
-
-            #Subtraction box
-            self.wfile.write(bytes('<form action="/subtract" method="post">', "utf-8"))
-            self.wfile.write(bytes('  <label for="subtraction">Subtract:</label>', "utf-8"))
-            self.wfile.write(bytes('  <input type="number" id="subtraction" name="subtraction" required><br>', "utf-8"))
-            self.wfile.write(bytes('  <input type="submit" value="Subtract">', "utf-8"))
-            self.wfile.write(bytes('</form>', "utf-8"))
-            
-            #Logout button
-            self.wfile.write(bytes('<form action="/logout" method="post">', "utf-8"))
-            self.wfile.write(bytes('<form action="/logout" method="post"><input type="submit" value="Logout and Delete Profile"></form>', "utf-8"))
-            self.wfile.write(bytes('</form>', "utf-8"))
-            
-
-            self.wfile.write(bytes("</body></html>", "utf-8"))
+            self.wfile.write(bytes(html_content, "utf-8"))
+           
+        elif self.path == "/get_counter":
+            # Send the current number as a plain text response
+            self.send_response(200)
+            self.send_header("Content-type", "text/plain")
+            self.end_headers()
+            self.wfile.write(bytes(str(self.current_number), "utf-8"))
             
     def do_POST(self):
         

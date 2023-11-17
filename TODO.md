@@ -7,12 +7,13 @@
             1.4. Throw exceptions (usename alreday exists, password already exists, unvalid char (if any), too long, too short)
     2. Functionality
             2.1. Display initial number
-            2.2 Make buttons for increasing and decreasing the number
+            2.2. Make buttons for increasing and decreasing the number
             2.3. Implement the buttons functionality
-            2.4. Display changes to the number
+            2.4. Display changes to the number (on the server, because it works on the code)
     3. Server
             3.1. Response when a client is succesfully logged in
             3.2. Killing the clients' info when then leave
+            3.3. Print the Error message for the client when (f.e wrong id, password or it already exists)
 
 Questions:
 1. How do 2 or more users connect simultaniously

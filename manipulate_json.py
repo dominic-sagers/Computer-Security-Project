@@ -56,6 +56,23 @@ class JsonStuff:  # Placeholder class; adjust this according to your structure
             json.dump(users, file, indent=4)
         
         return "success", True
+    
+    def erase_user(username):
+        
+        try:
+            with open(USER_DATA_FILE, 'r') as file:
+                users = json.load(file)
+                if not isinstance(users, list):  # Ensure users is a list
+                    users = list()
+        except (FileNotFoundError,  json.decoder.JSONDecodeError):
+            users = list()
+        
+        users = [user for user in users if user['id'] != username]
+        
+        with open(USER_DATA_FILE, 'w') as file:
+            json.dump(users, file, indent=4)
+        
+        
 
 if __name__ == '__main__':
     try:
