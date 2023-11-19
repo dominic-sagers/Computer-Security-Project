@@ -48,7 +48,8 @@ class JsonStuff:  # Placeholder class; adjust this according to your structure
             'server': {
                 'ip': client_ip,
                 'port': client_port
-            }
+            },
+            'number': 0
         })
 
         # Save updated user data back to the JSON file
@@ -72,7 +73,55 @@ class JsonStuff:  # Placeholder class; adjust this according to your structure
         with open(USER_DATA_FILE, 'w') as file:
             json.dump(users, file, indent=4)
         
+    def get_user_number(username):
         
+        try:
+            with open(USER_DATA_FILE, 'r') as file:
+                users = json.load(file)
+                if not isinstance(users, list):  # Ensure users is a list
+                    users = list()
+        except (FileNotFoundError,  json.decoder.JSONDecodeError):
+            users = list()
+            
+        for user in users:
+            if(user['id'] == username):
+                return user['number']  
+            
+    def increment_user_number(username, amount):
+        try:
+            with open(USER_DATA_FILE, 'r') as file:
+                users = json.load(file)
+                if not isinstance(users, list):  # Ensure users is a list
+                    users = list()
+        except (FileNotFoundError,  json.decoder.JSONDecodeError):
+            users = list()
+            
+        for user in users:
+            if(user['id'] == username):
+                user['number'] = user['number'] + amount
+        
+        #TODO: REWRITE JSON FILE WITH UPDATED USERS
+        
+        with open(USER_DATA_FILE, 'w') as file:
+            json.dump(users, file, indent=4)
+        
+    def decrement_user_number(username, amount):
+        try:
+            with open(USER_DATA_FILE, 'r') as file:
+                users = json.load(file)
+                if not isinstance(users, list):  # Ensure users is a list
+                    users = list()
+        except (FileNotFoundError,  json.decoder.JSONDecodeError):
+            users = list()
+            
+        for user in users:
+            if(user['id'] == username):
+                user['number'] = user['number'] - amount
+        
+        #TODO: REWRITE JSON FILE WITH UPDATED USERS
+        
+        with open(USER_DATA_FILE, 'w') as file:
+            json.dump(users, file, indent=4)
 
 if __name__ == '__main__':
     try:
