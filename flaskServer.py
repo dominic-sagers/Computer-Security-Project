@@ -11,14 +11,8 @@ app.secret_key = os.urandom(24)
 
 @app.route("/")
 def home():
-    
-    # referer = request.headers.get('Referer', '')
-    # if '/counter' not in referer:
-    #     return render_template("home.html")
-    # else:
         
     if 'username' in session:
-        print("here")
         return redirect("/counter")
     else:
         return render_template("home.html")
@@ -35,7 +29,6 @@ def counter():
 
 @app.route('/get_counter')
 def get_counter():
-    # Return the current number as plain text
     return str(JsonStuff.get_user_number(session['username']))
 
 @app.route('/add', methods=['POST'])
@@ -64,13 +57,13 @@ def login():
     
     
     
-    # Check if the credentials are valid (replace this with your actual authentication logic)
+    # Check if the credentials are valid 
     if(process_login(username, password)):
-        # Successful login, redirect to the counter page
+        #Successful login, redirect to the counter page
         session['username'] = request.form['username']
         return redirect('/counter')
     else:
-        # Invalid credentials, redirect back to the login page
+        # nvalid credentials, redirect back to the login page
         
         return redirect('/')
     
@@ -78,10 +71,8 @@ def login():
 def process_login(username, password):
         client_ip = request.remote_addr
 
-        # Get the client's port (not commonly used in this context)
         client_port = request.environ.get('REMOTE_PORT')
         
-        #MAKE JSON PROFILE: If method returns false, the user needs to retr
         error, status = JsonStuff.save_user_data(username, password, client_ip, client_port)
         if(status == False):
             print(error)
@@ -91,11 +82,11 @@ def process_login(username, password):
 
     
 if __name__ == '__main__':
-    # host = '127.0.0.1'
-    # port = random.randint(1000,8000)
+    
     app.run(host='0.0.0.0', port=5000, debug=True)
-    #server = make_server(host, port, app)
+    
     print(f"Server is running at http://{host}:{port}/")
+    
     try:
         server.serve_forever()
     except KeyboardInterrupt:
