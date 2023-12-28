@@ -4,6 +4,7 @@ from werkzeug.serving import make_server
 from manipulate_json import JsonStuff
 import random
 import os
+import time
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -90,10 +91,18 @@ def process_login(username, password):
         return "", True
     
 if __name__ == '__main__':
+    host = '0.0.0.0'
+    port = 5000 
     
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host, port, debug=True)
     
     print(f"Server is running at http://{host}:{port}/")
+
+    server = make_server(host, port, app)
+    
+    delay_time = 5 
+    print(f"Starting server in {delay_time} seconds...")
+    time.sleep(delay_time)
     
     try:
         server.serve_forever()
