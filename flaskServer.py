@@ -1,3 +1,4 @@
+import string
 from flask import Flask, render_template,  redirect, url_for, request, session
 from werkzeug.serving import make_server
 from manipulate_json import JsonStuff
@@ -33,15 +34,22 @@ def get_counter():
 
 @app.route('/add', methods=['POST'])
 def add():
-    addition = int(request.form['addition'])
-    JsonStuff.increment_user_number(session['username'],addition)
-    return redirect('/counter')
+    try: 
+        addition = int(request.form['addition']) 
+        JsonStuff.increment_user_number(session['username'],addition)
+        return redirect('/counter')
+    except ValueError: 
+        return "Invalid Input, please provide an integer"
 
 @app.route('/subtract', methods=['POST'])
 def subtract():
-    subtraction = int(request.form['subtraction'])
-    JsonStuff.decrement_user_number(session['username'],subtraction)
-    return redirect('/counter')
+    try: 
+        subtraction = int(request.form['subtraction'])
+        JsonStuff.decrement_user_number(session['username'],subtraction)
+        return redirect('/counter')
+    except ValueError: 
+        return "Invalid Input, please provide an integer"
+
 
 @app.route('/logout', methods=['POST'])
 def logout():
@@ -51,35 +59,35 @@ def logout():
 
 @app.route('/login', methods=['POST'])
 def login():
-    
     username = request.form['username']
     password = request.form['password']
+
+    # Check if the credentials are valid
+    error_message, status = process_login(username, password)
     
-    
-    
-    # Check if the credentials are valid 
-    if(process_login(username, password)):
-        #Successful login, redirect to the counter page
+    if status:
+        # Successful login, redirect to the counter page
         session['username'] = request.form['username']
         return redirect('/counter')
     else:
-        # nvalid credentials, redirect back to the login page
-        
-        return redirect('/')
-    
+        # Invalid credentials, redirect back to the login page
+        return render_template('home.html', error=error_message)
 
 def process_login(username, password):
-        client_ip = request.remote_addr
+    client_ip = request.remote_addr
+    client_port = request.environ.get('REMOTE_PORT')
 
-        client_port = request.environ.get('REMOTE_PORT')
-        
-        error, status = JsonStuff.save_user_data(username, password, client_ip, client_port)
-        if(status == False):
-            print(error)
-            return False
-        else:
-            return True
+    # Check for special characters in the password
+    special_characters = set(string.punctuation)
+    if not any(char in special_characters for char in password):
+        return "Password must contain at least one special character", False
 
+    # Validate the login and handle other logic
+    error, status = JsonStuff.save_user_data(username, password, client_ip, client_port)
+    if not status:
+        return error, False
+    else:
+        return "", True
     
 if __name__ == '__main__':
     
