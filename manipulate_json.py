@@ -23,6 +23,10 @@ class JsonStuff:
         for user in users:
             if user['id'] == username:
                 return "Username already exists", False
+        
+        # Minimum length is 8 
+        if len(password) <= 8:
+            return "Password should be at least 8 characters long", False
 
         # Check for special characters in the password
         special_characters = set(string.punctuation)  # Get all special characters
@@ -118,7 +122,7 @@ class JsonStuff:
             
         for user in users:
             if user['id'] == username:
-                if amount < 0:  # Check if the amount is negative for subtraction
+                if amount < 0:  
                     user['number'] = user['number'] - abs(amount)  # Subtract absolute value
                 else:
                     user['number'] = user['number'] + amount  # Otherwise, perform addition
@@ -138,13 +142,11 @@ class JsonStuff:
             
         for user in users:
             if(user['id'] == username):
-                if amount < 0:  # Check if the amount is negative for subtraction
-                    user['number'] = user['number'] + abs(amount)  # Subtract absolute value
+                if amount < 0: 
+                    user['number'] = user['number'] + abs(amount)  # Add absolute value
                 else:
-                    user['number'] = user['number'] - amount  # Otherwise, perform addition
-        
-        #TODO: REWRITE JSON FILE WITH UPDATED USERS
-        
+                    user['number'] = user['number'] - amount  # Otherwise, perform substraction
+
         with open(USER_DATA_FILE, 'w') as file:
             json.dump(users, file, indent=4)
 

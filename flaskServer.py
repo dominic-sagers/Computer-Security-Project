@@ -9,8 +9,6 @@ import time
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-
-
 @app.route("/")
 def home():
         
@@ -18,9 +16,6 @@ def home():
         return redirect("/counter")
     else:
         return render_template("home.html")
-    
-    
- 
     
 @app.route('/counter')
 def counter():
@@ -51,7 +46,6 @@ def subtract():
     except ValueError: 
         return "Invalid Input, please provide an integer"
 
-
 @app.route('/logout', methods=['POST'])
 def logout():
     JsonStuff.erase_user(session['username'])
@@ -77,11 +71,14 @@ def login():
 def process_login(username, password):
     client_ip = request.remote_addr
     client_port = request.environ.get('REMOTE_PORT')
-
+    # Minimum length is 8 
+    if len(password) <= 8:
+        return "Password should be at least 8 characters long", False
     # Check for special characters in the password
     special_characters = set(string.punctuation)
     if not any(char in special_characters for char in password):
         return "Password must contain at least one special character", False
+
 
     # Validate the login and handle other logic
     error, status = JsonStuff.save_user_data(username, password, client_ip, client_port)
