@@ -127,7 +127,6 @@ class JsonStuff:
                 else:
                     user['number'] = user['number'] + amount  # Otherwise, perform addition
 
-        # Rewrite JSON file with updated users
         with open(USER_DATA_FILE, 'w') as file:
             json.dump(users, file, indent=4)
         
