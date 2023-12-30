@@ -3,13 +3,12 @@ import secrets
 import hashlib
 import string
 
-
 USER_DATA_FILE = "example_user.json"  # JSON file to store user data
 PEPPER = "999988888ABABABA"  # Pepper value (can be anything)
 
 class JsonStuff:
     @staticmethod
-    def save_user_data(username, password, client_ip, client_port):
+    def save_user_data(username, password, hashed_client_data):
         # Load existing user data from the JSON file
         try:
             with open(USER_DATA_FILE, 'r') as file:
@@ -23,7 +22,7 @@ class JsonStuff:
         for user in users:
             if user['id'] == username:
                 return "Username already exists", False
-        
+
         # Minimum length is 8 
         if len(password) <= 8:
             return "Password should be at least 8 characters long", False
@@ -46,10 +45,7 @@ class JsonStuff:
             'id': username,
             'password': hashed_password,
             'salt': salt,
-            'server': {
-                'ip': client_ip,
-                'port': client_port
-            },
+            'client_data': hashed_client_data,  # Storing hashed client data
             'number': 0
         })
 

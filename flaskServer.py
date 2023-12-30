@@ -1,3 +1,4 @@
+import hashlib
 import string
 from flask import Flask, render_template,  redirect, url_for, request, session
 from werkzeug.serving import make_server
@@ -71,17 +72,24 @@ def login():
 def process_login(username, password):
     client_ip = request.remote_addr
     client_port = request.environ.get('REMOTE_PORT')
+
+    # Combine IP and port to create a unique identifier
+    client_data = f"{client_ip}:{client_port}"
+    
+    # Hash the combined data for secure storage
+    hashed_client_data = hashlib.sha256(client_data.encode()).hexdigest()
+
     # Minimum length is 8 
     if len(password) <= 8:
         return "Password should be at least 8 characters long", False
+    
     # Check for special characters in the password
     special_characters = set(string.punctuation)
     if not any(char in special_characters for char in password):
         return "Password must contain at least one special character", False
 
-
     # Validate the login and handle other logic
-    error, status = JsonStuff.save_user_data(username, password, client_ip, client_port)
+    error, status = JsonStuff.save_user_data(username, password, hashed_client_data)
     if not status:
         return error, False
     else:
