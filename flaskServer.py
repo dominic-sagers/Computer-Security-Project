@@ -6,8 +6,9 @@ import random
 import os
 import time
 
-app = Flask(__name__)
-app.secret_key = os.urandom(24)
+app = Flask(__name__, instance_relative_config=True)
+#app.config.from_object('config')
+app.config.from_pyfile('config.py')
 
 
 

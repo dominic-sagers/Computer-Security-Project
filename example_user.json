@@ -1,1 +1,32 @@
-[]
+[
+    {
+        "id": "ee",
+        "password": "8739cd017babc5cac93dd2b4cd591706883051fb622ed444cd84fc5df3677332",
+        "salt": "6ec972ef06849a55c6484764f8b68f1f",
+        "server": {
+            "ip": "192.168.0.18",
+            "port": 52218
+        },
+        "number": 0
+    },
+    {
+        "id": "dd",
+        "password": "4a9bb3df7af5aa0cbb7dbdc0ea068e318aa38c4f1c18ba0640fdb6063875617b",
+        "salt": "0cfff8a77d87a597c08d1917478a99ca",
+        "server": {
+            "ip": "192.168.0.18",
+            "port": 55037
+        },
+        "number": -3
+    },
+    {
+        "id": "gg",
+        "password": "a67e5be498580425be37ca05cab20d0553e769cec33196f77159711ca67e60ee",
+        "salt": "b43769fa81a1340d0d2ce562f305f7e3",
+        "server": {
+            "ip": "192.168.0.18",
+            "port": 61078
+        },
+        "number": 30
+    }
+]
