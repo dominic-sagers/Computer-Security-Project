@@ -28,5 +28,15 @@
             "port": 61078
         },
         "number": 30
+    },
+    {
+        "id": "tftd",
+        "password": "144c3b596f74806ec329a3530516e6cc6b0314ff2d8e38ab12b5b5702eba7680",
+        "salt": "5b8535708349d070f8a6b0c624c754a1",
+        "server": {
+            "ip": "192.168.0.18",
+            "port": 62142
+        },
+        "number": 0
     }
 ]

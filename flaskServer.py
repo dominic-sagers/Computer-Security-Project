@@ -57,6 +57,8 @@ def login():
     username = request.form['username']
     password = request.form['password']
 
+    time.sleep(3) # A 3 second delay is implemented 
+
     # Check if the credentials are valid
     error_message, status = process_login(username, password)
     
