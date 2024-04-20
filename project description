@@ -1,0 +1,33 @@
+Project - Step 1: Build it
+1. General Description:
+In this initial phase, the project focuses on implementing a secure system within a two-week timeframe.
+
+2. Software Architecture:
+The software architecture will adhere to a client-server model. The server acts as a central component, managing communication and supporting an arbitrary number of clients.
+
+3. Implementation Details:
+
+3.1 Clients:
+Each client represents a participant in the communication network and is initiated using a JSON configuration file. The configuration includes:
+
+{
+    "id": "ID",
+    "password": "PASSWORD",
+    "server": {
+        "ip": "SERVER_IP",
+        "port": "PORT"
+    },
+    "actions": {
+        "delay": "DELAY IN SECONDS",
+        "steps": [
+            "ACTION 1",
+            "ACTION 2",
+            "..."
+        ]
+    }
+}
+
+Upon startup, a client registers with the server using its ID. If successful, the server acknowledges the registration; otherwise, an error is returned. Upon acknowledgment, the server sets the client's password and initializes a counter. The client then executes defined actions with specified delays between them. Actions include increasing or decreasing the client's counter by a given amount. To prevent unauthorized access, each client is uniquely identified by its ID and password. Parallel connections for the same ID are allowed, but only two legitimate connections can be active simultaneously. When the last instance of a client logs out, all associated information is deleted from the server, ensuring statelessness. To maintain counter values, the server logs every change, recording the client's ID and the new counter value.
+
+Assignment Description:
+Implement a secure client-server system within a two-week timeframe, following the specified software architecture and implementation details. Ensure clients can register securely, perform designated actions, and maintain accurate counter values on the server while adhering to logging requirements.
